@@ -1,0 +1,25 @@
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.venv/
+venv/
+.DS_Store
+*.log
+
+# Local secrets -- never commit real DB credentials
+.env
+
+# Local editor/tooling config -- not part of the published repository
+.obsidian/
+*.code-workspace
+
+# Local Postgres data volume (never contains anything to commit;
+# would also be enormous and may contain restricted MIMIC-IV data)
+postgres_data/
+
+# Derived/output files written by the notebook into data/ -- these are
+# patient-level-adjacent artifacts and must never be committed. Only the
+# three lookup tables (ethnicity_groups.xlsx, language_groups.xlsx,
+# admission_location_groups.xlsx) belong in data/ and are tracked.
+data/df_cohort_newborn_dataset.xlsx
+data/df_scaled_cohort_newborn_dataset.xlsx

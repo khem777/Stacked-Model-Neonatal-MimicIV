@@ -1,0 +1,30 @@
+version: '3.9'
+services:
+  db_mimiciv:
+    image: postgres:13
+    restart: always
+    environment:
+      POSTGRES_USER: ${MIMICIV_DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${MIMICIV_DB_PASSWORD:?set MIMICIV_DB_PASSWORD in your .env file}
+      POSTGRES_DB: postgres
+    ports:
+      - "${MIMICIV_DB_PORT:-5433}:5432"
+    volumes:
+      # Points at the ALREADY-LOADED MIMIC-IV data directory from the old
+      # mixed project, so no data is copied or duplicated. Change this path
+      # if your data lives somewhere else. IMPORTANT: never start this
+      # docker-compose at the same time as any other Postgres pointed at
+      # this same folder (e.g. the old project's docker-compose) -- two
+      # Postgres servers cannot safely share one data directory at once.
+      - D:/Emmanuel/Uninorte/Tesis/ModelosPredictivos/postgres_data:/var/lib/postgresql/data
+
+  jupyter:
+    image: jupyter/base-notebook:python-3.10
+    container_name: jupyter_python
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./notebooks:/home/jovyan/work
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+    restart: unless-stopped
